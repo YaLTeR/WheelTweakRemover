@@ -1,0 +1,9 @@
+[
+{
+  "modid": "wheeltweakremover",
+  "name": "Wheel Tweak Remover",
+  "description": "Removes wheel tweak functionality from mods other than Mouse Tweaks.",
+  "version": "${version}",
+  "authorList": [ "YaLTeR" ],
+}
+]

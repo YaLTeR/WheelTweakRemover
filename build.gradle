@@ -1,0 +1,63 @@
+buildscript {
+    repositories {
+        jcenter()
+        maven { url = "http://files.minecraftforge.net/maven" }
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
+    }
+}
+apply plugin: 'scala'
+apply plugin: 'net.minecraftforge.gradle.forge'
+
+version = "1.0"
+group = "yalter.wtr"
+archivesBaseName = "wheeltweakremover"
+
+sourceCompatibility = targetCompatibility = "1.6" // Need this here so eclipse task generates correctly.
+compileJava {
+    sourceCompatibility = targetCompatibility = "1.6"
+}
+
+minecraft {
+    version = "1.10.2-12.18.3.2254"
+    runDir = "run"
+
+    mappings = "snapshot_20161111"
+}
+
+sourceSets {
+    main {
+        def root = project.projectDir.absolutePath + "/src/main"
+
+        scala {
+            srcDir new File(root, "scala")
+        }
+
+        resources {
+            srcDir new File(root, "resources")
+        }
+    }
+}
+
+jar {
+    manifest {
+        attributes "FMLCorePlugin": "yalter.wtr.asm.CorePlugin"
+    }
+}
+
+processResources
+{
+    inputs.property "version", project.version
+    inputs.property "mcversion", project.minecraft.version
+
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+
+        expand 'version':project.version, 'mcversion':project.minecraft.version
+    }
+
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
+    }
+}
